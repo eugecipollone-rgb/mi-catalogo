@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Mi Catálogo | Juegos y Puzzles Educativos</title>
+  <meta name="description" content="Descubrí nuestra selección de juegos de lógica, puzzles y juegos educativos. Encontrá el regalo perfecto con envíos a todo el país." />
+  <meta name="keywords" content="juegos educativos, puzzles, lógica, catálogo online, juegos de mesa" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mi Catálogo | Juegos y Puzzles Educativos" />
+  <meta property="og:description" content="Catálogo online de juegos y puzzles educativos. Actualizamos precios y stock en tiempo real." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://tu-sitio.com" />
+  <meta property="og:image" content="https://tu-sitio.com/og-image.jpg" />
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="inicio">
+    <div class="header__inner container">
+      <!-- Logo: reemplazá el texto o agregá una etiqueta <img> -->
+      <a href="#inicio" class="logo" aria-label="Inicio">
+        <span class="logo__icon">🧩</span>
+        <span class="logo__text">MiTienda<span class="logo__accent">Play</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#catalogo" class="nav__link">Catálogo</a>
+        <a href="#nosotros" class="nav__link">Quiénes somos</a>
+        <a href="#contacto" class="nav__link">Contacto</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Menú móvil -->
+    <nav class="nav-mobile" id="navMobile" aria-hidden="true">
+      <a href="#catalogo" class="nav-mobile__link">Catálogo</a>
+      <a href="#nosotros" class="nav-mobile__link">Quiénes somos</a>
+      <a href="#contacto" class="nav-mobile__link">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- ===== HERO / BANNER ===== -->
+  <!-- Para cambiar el banner: editá el texto o agregá un background-image en style.css (.hero) -->
+  <section class="hero" aria-label="Banner principal">
+    <div class="hero__inner container">
+      <span class="hero__eyebrow">Nueva colección disponible</span>
+      <h1 class="hero__title">Juegos que<br><em>despiertan la mente</em></h1>
+      <p class="hero__sub">Puzzles, juegos de lógica y estrategia para todas las edades. Precios actualizados todos los días.</p>
+      <a href="#catalogo" class="btn btn--hero">Ver catálogo completo</a>
+    </div>
+    <div class="hero__shapes" aria-hidden="true">
+      <div class="shape shape--1"></div>
+      <div class="shape shape--2"></div>
+      <div class="shape shape--3"></div>
+    </div>
+  </section>
+
+  <!-- ===== CATÁLOGO ===== -->
+  <section class="catalogo" id="catalogo">
+    <div class="container">
+      <h2 class="section-title">Nuestros productos</h2>
+
+      <!-- Barra de herramientas -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar por nombre, código o descripción…"
+            aria-label="Buscar productos"
+          />
+        </div>
+
+        <div class="toolbar__right">
+          <select id="sortSelect" class="select" aria-label="Ordenar productos">
+            <option value="">Ordenar por…</option>
+            <option value="nombre-az">Nombre A → Z</option>
+            <option value="nombre-za">Nombre Z → A</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filtros de categoría (se generan dinámicamente) -->
+      <div class="filters" id="filters" role="group" aria-label="Filtrar por categoría">
+        <button class="filter-btn filter-btn--active" data-cat="todas">Todas</button>
+        <!-- Los demás botones se insertan con JS -->
+      </div>
+
+      <!-- Estado de carga -->
+      <div class="loading" id="loading" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Cargando productos…</p>
+      </div>
+
+      <!-- Mensaje de error -->
+      <div class="error" id="error" hidden>
+        <p>⚠️ No se pudieron cargar los productos. <button id="retryBtn" class="btn btn--sm">Reintentar</button></p>
+      </div>
+
+      <!-- Mensaje sin resultados -->
+      <p class="no-results" id="noResults" hidden>No encontramos productos con esa búsqueda.</p>
+
+      <!-- Grilla de productos -->
+      <div class="grid" id="grid" aria-label="Grilla de productos"></div>
+    </div>
+  </section>
+
+  <!-- ===== QUIÉNES SOMOS ===== -->
+  <section class="nosotros" id="nosotros">
+    <div class="container nosotros__inner">
+      <div class="nosotros__text">
+        <span class="section-eyebrow">Nuestra historia</span>
+        <h2 class="section-title section-title--left">Quiénes somos</h2>
+        <p>
+          Somos una tienda familiar apasionada por los juegos que estimulan la mente. Desde 2015 seleccionamos
+          puzzles, juegos de lógica y estrategia de la más alta calidad para acercarlos a familias y educadores
+          de todo el país.
+        </p>
+        <p>
+          Creemos que jugar es aprender. Por eso cada producto que ofrecemos pasa por nuestra propia revisión
+          antes de llegar a tus manos.
+        </p>
+        <div class="stats">
+          <div class="stat"><strong>+500</strong><span>productos</span></div>
+          <div class="stat"><strong>+8 años</strong><span>de experiencia</span></div>
+          <div class="stat"><strong>4.9 ⭐</strong><span>calificación</span></div>
+        </div>
+      </div>
+      <div class="nosotros__img" aria-hidden="true">
+        <!-- Reemplazá este emoji con una imagen real: <img src="foto-tienda.jpg" alt="Nuestra tienda"> -->
+        <div class="nosotros__placeholder">🧩</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="contacto" id="contacto">
+    <div class="container contacto__inner">
+      <div class="contacto__info">
+        <span class="section-eyebrow">¿Hablamos?</span>
+        <h2 class="section-title section-title--left">Contacto</h2>
+        <p>Escribinos con cualquier consulta. Respondemos en menos de 24 horas.</p>
+        <ul class="contacto__list">
+          <li>📱 <a href="https://wa.me/5491100000000" target="_blank" rel="noopener">WhatsApp: +54 9 11 0000-0000</a></li>
+          <li>✉️ <a href="mailto:info@mitienda.com">info@mitienda.com</a></li>
+          <li>📍 Buenos Aires, Argentina</li>
+        </ul>
+      </div>
+
+      <form class="form" id="contactForm" novalidate>
+        <div class="form__group">
+          <label for="nombre">Nombre <span aria-hidden="true">*</span></label>
+          <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre" />
+        </div>
+        <div class="form__group">
+          <label for="email">Email <span aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" required placeholder="tu@email.com" />
+        </div>
+        <div class="form__group">
+          <label for="mensaje">Mensaje <span aria-hidden="true">*</span></label>
+          <textarea id="mensaje" name="mensaje" rows="4" required placeholder="¿En qué te podemos ayudar?"></textarea>
+        </div>
+        <button type="submit" class="btn btn--submit">Enviar mensaje</button>
+        <p class="form__success" id="formSuccess" hidden>✅ ¡Mensaje enviado! Te respondemos pronto.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="logo__icon">🧩</span>
+        <span class="logo__text">MiTienda<span class="logo__accent">Play</span></span>
+        <p class="footer__tagline">Juegos que despiertan la mente.</p>
+      </div>
+      <div class="footer__links">
+        <h3>Navegación</h3>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#nosotros">Quiénes somos</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer__links">
+        <h3>Legal</h3>
+        <a href="#">Términos y condiciones</a>
+        <a href="#">Política de privacidad</a>
+        <a href="#">Cambios y devoluciones</a>
+      </div>
+    </div>
+    <p class="footer__copy">© <span id="year"></span> MiTiendaPlay. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- ===== BOTÓN WHATSAPP FLOTANTE ===== -->
+  <!-- Cambiá el número en el href: https://wa.me/[CÓDIGO_PAÍS][NÚMERO] -->
+  <a
+    href="https://wa.me/5491100000000?text=Hola!%20Quiero%20consultar%20sobre%20sus%20productos"
+    class="whatsapp-btn"
+    target="_blank"
+    rel="noopener"
+    aria-label="Contactar por WhatsApp"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" width="28" height="28" aria-hidden="true">
+      <path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.74 5.494 2.035 7.807L0 32l8.418-2.009A15.93 15.93 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.27 22.607c-.344.965-2.01 1.844-2.76 1.96-.703.11-1.59.155-2.567-.162-.592-.19-1.352-.444-2.33-.87-4.1-1.772-6.783-5.892-6.99-6.163-.206-.271-1.675-2.228-1.675-4.247 0-2.02 1.057-3.01 1.432-3.42.373-.41.813-.512 1.084-.512.271 0 .542.003.78.014.25.013.587-.095.918.7.344.823 1.168 2.842 1.27 3.049.1.207.167.45.033.72-.133.271-.2.44-.4.677-.2.237-.42.53-.6.713-.2.2-.408.416-.175.815.232.4 1.032 1.7 2.215 2.752 1.522 1.354 2.806 1.774 3.203 1.974.397.2.63.167.863-.1.232-.267.995-1.16 1.26-1.56.265-.4.53-.333.895-.2.365.133 2.32 1.094 2.717 1.293.397.2.661.3.76.466.099.166.099.966-.245 1.931z"/>
+    </svg>
+  </a>
+
+  <!-- Modal de producto -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+      <button class="modal__close" id="modalClose" aria-label="Cerrar">✕</button>
+      <img class="modal__img" id="modalImg" src="" alt="" />
+      <div class="modal__body">
+        <span class="modal__cat" id="modalCat"></span>
+        <h2 class="modal__title" id="modalTitle"></h2>
+        <p class="modal__desc" id="modalDesc"></p>
+        <p class="modal__code" id="modalCode"></p>
+        <p class="modal__price" id="modalPrice"></p>
+        <a class="btn btn--wa" id="modalWA" href="#" target="_blank" rel="noopener">
+          💬 Consultar por WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
